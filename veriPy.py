@@ -1,16 +1,15 @@
 import re
 from cmd import Cmd
-from pyfiglet import Figlet
 import dns.resolver
 import socket
 import smtplib
 import sys
-f = Figlet(font='slant')
+
 # print(f.renderText('veriPy'))
 
 class MyPrompt(Cmd):
     prompt = "~EmailVerifier> "
-    intro = f.renderText('Welcome!')
+    intro = "\n\nWelcome!\n\nEnter the email you want to verify."
 
     def default(self, inp):
         if re.match(
@@ -28,6 +27,7 @@ class MyPrompt(Cmd):
             for record in records:
                 print(record)
             mxRecord = records[0].exchange
+            print(mxRecord)
             mxRecord = str(mxRecord)
 
             # Get local server hostname
@@ -46,16 +46,16 @@ class MyPrompt(Cmd):
 
             # Assume 250 as Success
             if code == 250 and newDomain == 'yahoo.com' or code == 250 and newDomain == 'hotmail.com':
-        	    print('Success, but still might bounce.')
+        	    print('Code:'+str(code)+'\n\nSuccess, but still might bounce.\n\n')
             elif code == 250:
-        	    print('Success!')
+        	    print('Code:'+str(code)+'\n\nSuccess!\n\n')
             else:
-                print('Will bounce.')
+                print('Code:'+str(code)+'\n\nWill bounce.\n\n')
 
 
 
     def do_exit(self, input):
-        print(f.renderText('Goodbye...'))
+        print('Goodbye...')
         return True
     def help_exit(self):
         print("\n\nThis command will exit the program.\n\nTo use the 'exit' comman run:\n\nexit")
